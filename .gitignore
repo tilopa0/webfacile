@@ -6,3 +6,8 @@ app/public/wp-config.php
 # LocalWP specific
 conf/
 logs/
+
+# Security and Temporary Files
+app/public/wp-content/wflogs/
+/*.png
+/*.bmp
