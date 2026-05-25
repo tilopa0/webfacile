@@ -140,7 +140,7 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			define( 'UAGB_BASE', plugin_basename( UAGB_FILE ) );
 			define( 'UAGB_DIR', plugin_dir_path( UAGB_FILE ) );
 			define( 'UAGB_URL', plugins_url( '/', UAGB_FILE ) );
-			define( 'UAGB_VER', '2.19.26' );
+			define( 'UAGB_VER', '2.19.27' );
 			define( 'UAGB_MODULES_DIR', UAGB_DIR . 'modules/' );
 			define( 'UAGB_MODULES_URL', UAGB_URL . 'modules/' );
 			define( 'UAGB_SLUG', 'spectra' );
@@ -181,6 +181,11 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 		 */
 		public function loader() {
 
+			require_once UAGB_DIR . 'classes/class-uagb-scripts-utils.php';
+			require_once UAGB_DIR . 'classes/class-uagb-block-module.php';
+			require_once UAGB_DIR . 'classes/class-uagb-helper.php';
+			require_once UAGB_DIR . 'classes/class-uagb-admin-helper.php';
+			require_once UAGB_DIR . 'classes/class-uagb-post-assets.php';
 			require_once UAGB_DIR . 'classes/utils.php';
 			require_once UAGB_DIR . 'classes/class-spectra-block-prioritization.php';
 			require_once UAGB_DIR . 'classes/class-uagb-install.php';
@@ -223,10 +228,6 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 		 */
 		public function load_plugin() {
 
-			require_once UAGB_DIR . 'classes/class-uagb-scripts-utils.php';
-			require_once UAGB_DIR . 'classes/class-uagb-block-module.php';
-			require_once UAGB_DIR . 'classes/class-uagb-admin-helper.php';
-			require_once UAGB_DIR . 'classes/class-uagb-helper.php';
 			require_once UAGB_DIR . 'blocks-config/blocks-config.php';
 			require_once UAGB_DIR . 'lib/astra-notices/class-bsf-admin-notices.php';
 			require_once UAGB_DIR . 'lib/class-uagb-zipwp-images.php';
@@ -240,7 +241,6 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 				require_once UAGB_DIR . 'classes/class-uagb-admin.php';
 			}
 
-			require_once UAGB_DIR . 'classes/class-uagb-post-assets.php';
 			require_once UAGB_DIR . 'classes/class-uagb-front-assets.php';
 			require_once UAGB_DIR . 'classes/class-uagb-init-blocks.php';
 			require_once UAGB_DIR . 'classes/class-uagb-rest-api.php';
@@ -551,8 +551,11 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 				)
 			);
 
-			// This class is loaded from blocks config.
-			UAGB_Popup_Builder::generate_scripts();
+			// This class is loaded from blocks config (load_plugin). Guard for
+			// environments where init fires before plugins_loaded (e.g. WP.com Atomic).
+			if ( class_exists( 'UAGB_Popup_Builder' ) ) {
+				UAGB_Popup_Builder::generate_scripts();
+			}
 
 			UAGB_Update::migrate_visibility_mode();
 

@@ -52,6 +52,9 @@ class UAGB_Init_Blocks {
 		// Hook: Editor assets.
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 
+		// Hook: Editor styles via enqueue_block_assets so they load inside the iframe editor (apiVersion 3 / WP 7.0+).
+		add_action( 'enqueue_block_assets', array( $this, 'editor_iframe_styles' ) );
+
 		if ( version_compare( get_bloginfo( 'version' ), '5.8', '>=' ) ) {
 			add_filter( 'block_categories_all', array( $this, 'register_block_category' ), 999999, 2 );
 		} else {
@@ -1039,6 +1042,55 @@ class UAGB_Init_Blocks {
 	}
 
 	/**
+	 * Enqueue editor styles via enqueue_block_assets so they are injected into the
+	 * iframe editor canvas (apiVersion 3 / WordPress 7.0+). Using enqueue_block_editor_assets
+	 * for styles causes a console warning in WP 7.0 because that hook targets the outer
+	 * admin shell, not the iframe.
+	 *
+	 * @since 2.19.27
+	 * @return void
+	 */
+	public function editor_iframe_styles() {
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		if ( UAGB_Admin_Helper::should_exclude_assets_for_cpt() ) {
+			return;
+		}
+
+		// Common editor style.
+		wp_enqueue_style(
+			'uagb-block-common-editor-css',
+			UAGB_URL . 'dist/common-editor.css',
+			array( 'wp-edit-blocks' ),
+			UAGB_VER
+		);
+
+		// Block base styles.
+		UAGB_Scripts_Utils::enqueue_blocks_styles();
+
+		// RTL styles.
+		UAGB_Scripts_Utils::enqueue_blocks_rtl_styles();
+
+		// Block dependency CSS (e.g. block positioning).
+		$block_assets = UAGB_Block_Module::get_block_dependencies();
+		foreach ( $block_assets as $handle => $asset ) {
+			if ( isset( $asset['type'] ) && 'css' === $asset['type'] ) {
+				if ( ! wp_style_is( $handle, 'registered' ) ) {
+					wp_register_style(
+						$handle,
+						$asset['src'],
+						isset( $asset['dep'] ) ? $asset['dep'] : array(),
+						UAGB_VER
+					);
+				}
+				wp_enqueue_style( $handle );
+			}
+		}
+	}
+
+	/**
 	 * Add a version-independent body class for WP >= 6.9 compat CSS.
 	 *
 	 * Replaces version-specific body classes (version-6-9, version-6-9-1)
@@ -1050,8 +1102,16 @@ class UAGB_Init_Blocks {
 	 * @return string Modified admin body classes.
 	 */
 	public function add_wp_compat_body_class( $classes ) {
+		// Add class for WordPress 6.9+.
 		if ( version_compare( get_bloginfo( 'version' ), '6.9', '>=' ) ) {
 			$classes .= ' spectra-wp-gte-6-9';
+		}
+
+		// Add class for WordPress 7.0+ for animation dropdown height fix.
+		// Check both '7.0' and '7.0.x' formats (including RC/Beta versions).
+		$wp_version = get_bloginfo( 'version' );
+		if ( version_compare( $wp_version, '7.0', '>=' ) || strpos( $wp_version, '7.0' ) === 0 ) {
+			$classes .= ' spectra-wp-gte-7-0';
 		}
 		return $classes;
 	}
@@ -1101,14 +1161,6 @@ class UAGB_Init_Blocks {
 		);
 
 		wp_set_script_translations( 'uagb-block-editor-js', 'ultimate-addons-for-gutenberg' );
-
-		// Common Editor style.
-		wp_enqueue_style(
-			'uagb-block-common-editor-css', // Handle.
-			UAGB_URL . 'dist/common-editor.css', // Block editor CSS.
-			array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
-			UAGB_VER
-		);
 
 		wp_localize_script( 'uagb-block-editor-js', 'uag_react', array( 'pro_plugin_status' => self::get_plugin_status( 'spectra-pro/spectra-pro.php' ) ) );
 
@@ -1326,12 +1378,8 @@ class UAGB_Init_Blocks {
 		);
 
 		// To match the editor with frontend.
-		// Scripts Dependency.
+		// Scripts Dependency (JS only; CSS is enqueued via editor_iframe_styles on enqueue_block_assets).
 		UAGB_Scripts_Utils::enqueue_blocks_dependency_both();
-		// Style.
-		UAGB_Scripts_Utils::enqueue_blocks_styles();
-		// RTL Styles.
-		UAGB_Scripts_Utils::enqueue_blocks_rtl_styles();
 
 		// Add svg icons in chunks.
 		$this->add_svg_icon_assets();
