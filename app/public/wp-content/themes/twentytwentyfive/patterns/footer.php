@@ -65,6 +65,19 @@
 		</div>
 		<!-- /wp:group -->
 
+		<!-- wp:group {"align":"full","layout":{"type":"flex","justifyContent":"center","marginTop":"var:preset|spacing|40"}} -->
+		<div class="wp-block-group alignfull" style="margin-top:var(--wp--preset--spacing--40)">
+			<!-- wp:social-links {"iconColor":"base","iconColorValue":"#ffffff","iconBackgroundColor":"brown","iconBackgroundColorValue":"#6b4423","style":{"border":{"radius":"100px"}},"className":"is-style-default"} -->
+			<ul class="wp-block-social-links has-icon-color has-icon-background-color is-style-default">
+				<!-- wp:social-link {"url":"https://github.com","service":"github"} /-->
+				<!-- wp:social-link {"url":"https://linkedin.com","service":"linkedin"} /-->
+				<!-- wp:social-link {"url":"https://t.me","service":"telegram"} /-->
+				<!-- wp:social-link {"url":"https://wa.me","service":"whatsapp"} /-->
+			</ul>
+			<!-- /wp:social-links -->
+		</div>
+		<!-- /wp:group -->
+
 		<!-- wp:spacer {"height":"var:preset|spacing|70"} -->
 		<div style="height:var(--wp--preset--spacing--70)" aria-hidden="true" class="wp-block-spacer"></div>
 		<!-- /wp:spacer -->
