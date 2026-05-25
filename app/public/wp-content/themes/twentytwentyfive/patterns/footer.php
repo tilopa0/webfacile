@@ -67,12 +67,12 @@
 
 		<!-- wp:group {"align":"full","layout":{"type":"flex","justifyContent":"center","marginTop":"var:preset|spacing|40"}} -->
 		<div class="wp-block-group alignfull" style="margin-top:var(--wp--preset--spacing--40)">
-			<!-- wp:social-links {"iconColor":"base","iconColorValue":"#ffffff","iconBackgroundColor":"brown","iconBackgroundColorValue":"#6b4423","style":{"border":{"radius":"100px"}},"className":"is-style-default"} -->
-			<ul class="wp-block-social-links has-icon-color has-icon-background-color is-style-default">
-				<!-- wp:social-link {"url":"https://github.com","service":"github"} /-->
-				<!-- wp:social-link {"url":"https://linkedin.com","service":"linkedin"} /-->
-				<!-- wp:social-link {"url":"https://t.me","service":"telegram"} /-->
-				<!-- wp:social-link {"url":"https://wa.me","service":"whatsapp"} /-->
+			<!-- wp:social-links {"iconColor":"base","iconColorValue":"#ffffff","iconBackgroundColor":"brown","iconBackgroundColorValue":"#6b4423","size":"has-normal-icon-size","style":{"border":{"radius":"100px"}},"className":"is-style-default"} -->
+			<ul class="wp-block-social-links has-icon-color has-icon-background-color has-normal-icon-size is-style-default">
+				<!-- wp:social-link {"url":"https://github.com/tilopa0","service":"github"} /-->
+				<!-- wp:social-link {"url":"https://www.linkedin.com/in/olga-popova-58b2113ab/","service":"linkedin"} /-->
+				<!-- wp:social-link {"url":"https://t.me/st_popova","service":"telegram"} /-->
+				<!-- wp:social-link {"url":"https://wa.me/380509823134","service":"whatsapp"} /-->
 			</ul>
 			<!-- /wp:social-links -->
 		</div>
