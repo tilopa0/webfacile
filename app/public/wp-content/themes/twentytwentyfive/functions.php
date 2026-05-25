@@ -166,8 +166,77 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 endif;
 
 /**
+ * AI INJECTED: Custom styles for Tarifs & Services and Portfolio pages.
+ */
+add_action('wp_head', function () {
+	echo '<style>
+		/* Global Centering for standard pages */
+		.page-template-default main,
+		.page-template-default .wp-block-post-content,
+		.page-id-tarifs-services .wp-block-post-content,
+		.page-id-portfolio .wp-block-post-content {
+			display: flex !important;
+			flex-direction: column !important;
+			align-items: center !important;
+			text-align: center !important;
+			width: 100% !important;
+		}
+
+		/* Centering headings and paragraphs */
+		.page-template-default h1, 
+		.page-template-default h2, 
+		.page-template-default h3, 
+		.page-template-default p,
+		.page-template-default .wp-block-heading {
+			text-align: center !important;
+			margin-left: auto !important;
+			margin-right: auto !important;
+			max-width: 800px !important;
+		}
+
+		/* Standardizing Images (800px width, 16:9 ratio, 30px rounded corners) */
+		.page-template-default img,
+		.page-template-default .wp-block-image img,
+		.page-template-default .wp-block-post-featured-image img {
+			width: 100% !important;
+			max-width: 800px !important;
+			height: auto !important;
+			aspect-ratio: 16/9 !important;
+			object-fit: cover !important;
+			border-radius: 30px !important;
+			margin: 30px auto !important;
+			display: block !important;
+		}
+
+		/* Brown Containers (Narrower, matching image width, 30px rounded corners) */
+		.wp-block-group[style*="background-color:#6B4423"],
+		.wp-block-group.has-brown-background-color,
+		.uagb-block-container[style*="background-color"] {
+			max-width: 800px !important;
+			width: 90% !important;
+			margin: 30px auto !important;
+			border-radius: 30px !important;
+			padding: 40px !important;
+			box-sizing: border-box !important;
+			display: flex !important;
+			flex-direction: column !important;
+			align-items: center !important;
+		}
+
+		/* Centering content inside brown containers */
+		.wp-block-group.has-brown-background-color > *,
+		.uagb-block-container > * {
+			text-align: center !important;
+			margin-left: auto !important;
+			margin-right: auto !important;
+		}
+		
+		:root { --wp--preset--color--brown: #6B4423 !important; }
+	</style>';
+});
+
+/**
  * AI INJECTED: Universal footer injection for Social Icons.
- * This works by injecting directly into the page bottom, bypassing Spectra blocks.
  */
 add_action('wp_footer', function () {
 	?>
