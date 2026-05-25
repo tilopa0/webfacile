@@ -187,11 +187,13 @@ add_action('wp_head', function () {
 		.page-template-default h2, 
 		.page-template-default h3, 
 		.page-template-default p,
-		.page-template-default .wp-block-heading {
+		.page-template-default .wp-block-heading,
+		.page-template-default .wp-block-paragraph {
 			text-align: center !important;
 			margin-left: auto !important;
 			margin-right: auto !important;
-			max-width: 800px !important;
+			max-width: 800px !important; /* Exactly the same width as images */
+			width: 100% !important;
 		}
 
 		/* Standardizing Images (800px width, 16:9 ratio, 30px rounded corners) */
