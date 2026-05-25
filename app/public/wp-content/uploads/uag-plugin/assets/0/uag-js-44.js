@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function(){ window.addEventListene
 	UAGBButtonChild.init( '.uagb-block-014b64db' );
 });
 window.addEventListener( 'load', function() {
-	UAGBButtonChild.init( '.uagb-block-63c47bfe' );
+	UAGBButtonChild.init( '.uagb-block-9679bf7b' );
 });
 window.addEventListener( 'load', function() {
 	UAGBButtonChild.init( '.uagb-block-c734e744' );
