@@ -159,8 +159,59 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 	function twentytwentyfive_format_binding() {
 		$post_format_slug = get_post_format();
 
-		if ( $post_format_slug && 'standard' !== $post_format_slug ) {
-			return get_post_format_string( $post_format_slug );
+		if ($post_format_slug && 'standard' !== $post_format_slug) {
+			return get_post_format_string($post_format_slug);
 		}
-	}
-endif;
+		}
+		endif;
+
+		/**
+		* AI INJECTED: Force social icons in footer and custom styling.
+		*/
+		add_filter('render_block', function ($block_content, $block) {
+		// Check if this is the footer area (tagName 'footer' in FSE themes)
+		if (! empty($block['attrs']['tagName']) && 'footer' === $block['attrs']['tagName']) {
+		$social_markup = '
+		<!-- wp:group {"align":"full","layout":{"type":"flex","justifyContent":"center","marginTop":"var:preset|spacing|40"}} -->
+		<div class="wp-block-group alignfull" style="margin-top:var(--wp--preset--spacing--40); display:flex; justify-content:center; width:100%;">
+			<ul class="wp-block-social-links has-icon-color has-icon-background-color has-normal-icon-size is-style-default">
+				<li class="wp-social-link wp-social-link-github wp-block-social-link"><a href="https://github.com/tilopa0" class="wp-block-social-link-column"><span class="wp-block-social-link-label screen-reader-text">GitHub</span></a></li>
+				<li class="wp-social-link wp-social-link-linkedin wp-block-social-link"><a href="https://www.linkedin.com/in/olga-popova-58b2113ab/" class="wp-block-social-link-column"><span class="wp-block-social-link-label screen-reader-text">LinkedIn</span></a></li>
+				<li class="wp-social-link wp-social-link-telegram wp-block-social-link"><a href="https://t.me/st_popova" class="wp-block-social-link-column"><span class="wp-block-social-link-label screen-reader-text">Telegram</span></a></li>
+				<li class="wp-social-link wp-social-link-whatsapp wp-block-social-link"><a href="https://wa.me/380509823134" class="wp-block-social-link-column"><span class="wp-block-social-link-label screen-reader-text">WhatsApp</span></a></li>
+			</ul>
+		</div>
+		<!-- /wp:group -->';
+
+		// Parse the block to HTML if needed, but here we just append raw HTML
+		// We use do_blocks to ensure it is processed if it contains block markup
+		return $block_content . do_blocks($social_markup);
+		}
+		return $block_content;
+		}, 10, 2);
+
+		/**
+		* AI INJECTED: Custom CSS for Brown icons and circular shape.
+		*/
+		add_action('wp_head', function() {
+		echo '<style>
+		:root { --wp--preset--color--brown: #6B4423 !important; }
+		.wp-block-social-links.has-icon-background-color .wp-social-link {
+			background-color: #6B4423 !important;
+			color: #ffffff !important;
+			border-radius: 100px !important;
+			padding: 5px !important;
+			margin: 5px !important;
+			display: flex !important;
+			align-items: center;
+			justify-content: center;
+		}
+		.wp-block-social-links.has-icon-background-color .wp-social-link a {
+			color: #ffffff !important;
+			display: block !important;
+			width: 24px;
+			height: 24px;
+		}
+		</style>';
+		});
+
