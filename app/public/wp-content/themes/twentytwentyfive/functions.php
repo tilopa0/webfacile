@@ -289,7 +289,7 @@ add_action('wp_footer', function () {
 			.ai-social-link {
 				width: 44px !important;
 				height: 44px !important;
-				background-color: #6B4423 !important;
+				background-color: #3D2B1F !important; /* Darker brown to match buttons */
 				border-radius: 50% !important;
 				display: flex !important;
 				align-items: center !important;
