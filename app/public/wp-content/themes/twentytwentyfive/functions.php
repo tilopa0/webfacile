@@ -238,13 +238,59 @@ add_action('wp_head', function () {
 		/* Brown Containers Styling */
 		.wp-block-group[style*="background-color:#6B4423"],
 		.wp-block-group.has-brown-background-color,
-		.uagb-block-container[style*="background-color"] {
+		.uagb-block-container[style*="background-color"],
+		/* Targeting "NOUS RESTONS HUMAINS" and similar banners */
+		.wp-block-cover, 
+		.wp-block-cover-image,
+		.uagb-section__outer-wrap {
 			max-width: 800px !important;
 			width: 90% !important;
-			margin: 30px auto !important;
+			margin: 60px auto !important; /* Original margin + 0.8cm (~30px) */
 			border-radius: 30px !important;
 			padding: 40px !important;
 			box-sizing: border-box !important;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important; /* Floating shadow effect */
+			overflow: hidden !important;
+		}
+
+		/* Match button borders below banners */
+		.wp-block-button__link,
+		.uagb-buttons-repeater {
+			border-radius: 30px !important;
+		}
+
+		/* Pricing Tables (FACILE START etc.) - Force Vertical Stacking */
+		.wp-block-columns:has(.wp-block-column h1),
+		.wp-block-columns:has(.wp-block-column h2),
+		.uagb-columns-container {
+			flex-direction: column !important;
+			align-items: center !important;
+			gap: 40px !important;
+		}
+
+		/* Styling individual pricing cards to look like the banners */
+		.wp-block-column:has(h1), 
+		.wp-block-column:has(h2),
+		.uagb-column__wrap {
+			width: 100% !important;
+			max-width: 800px !important;
+			background-color: #6B4423 !important; /* Match your brown banner color */
+			color: #ffffff !important;
+			border-radius: 30px !important;
+			padding: 40px !important;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important; /* Floating shadow */
+			margin-bottom: 30px !important;
+			display: flex !important;
+			flex-direction: column !important;
+			align-items: center !important;
+		}
+
+		/* Ensure text inside these cards is white and centered */
+		.wp-block-column:has(h1) *, 
+		.wp-block-column:has(h2) *,
+		.uagb-column__wrap * {
+			color: #ffffff !important;
+			text-align: center !important;
 		}
 		
 		:root { --wp--preset--color--brown: #3D2B1F !important; }
