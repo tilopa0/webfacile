@@ -225,7 +225,23 @@ add_action('wp_head', function () {
 			align-items: center !important;
 		}
 
-		/* Centering content inside brown containers */
+		/* Force Columns to stack vertically (for Proget/Portfolio page) */
+		.wp-block-columns, 
+		.uagb-columns-container {
+			flex-direction: column !important;
+			align-items: center !important;
+		}
+
+		.wp-block-column,
+		.uagb-column__wrap {
+			width: 100% !important;
+			max-width: 800px !important; /* Match Established standard */
+			margin-left: auto !important;
+			margin-right: auto !important;
+			margin-bottom: 30px !important;
+		}
+
+		/* Center content inside brown containers */
 		.wp-block-group.has-brown-background-color > *,
 		.uagb-block-container > * {
 			text-align: center !important;
