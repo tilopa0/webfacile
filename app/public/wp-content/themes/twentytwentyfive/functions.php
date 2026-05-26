@@ -166,15 +166,27 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 endif;
 
 /**
- * AI INJECTED: Custom styles for Tarifs & Services and Portfolio pages.
+ * AI INJECTED: Custom styles for Layout, Images, and Logos.
  */
 add_action('wp_head', function () {
 	echo '<style>
-		/* Global Centering for standard pages */
-		.page-template-default main,
+		/* Fix Footer Logo Size (min 1.3cm ~ 50px) */
+		footer .wp-block-site-logo img,
+		footer img.wp-block-site-logo,
+		.footer-logo img {
+			width: 55px !important;
+			height: 55px !important;
+			min-width: 55px !important;
+			min-height: 55px !important;
+			max-width: none !important;
+			object-fit: contain !important;
+		}
+
+		/* Global Centering for Page Content ONLY (Fixes Tarifs Hero) */
 		.page-template-default .wp-block-post-content,
 		.page-id-tarifs-services .wp-block-post-content,
-		.page-id-portfolio .wp-block-post-content {
+		.page-id-portfolio .wp-block-post-content,
+		.page-id-proget .wp-block-post-content {
 			display: flex !important;
 			flex-direction: column !important;
 			align-items: center !important;
@@ -182,7 +194,7 @@ add_action('wp_head', function () {
 			width: 100% !important;
 		}
 
-		/* Centering headings, paragraphs, and ALL container types */
+		/* Global 800px Width Constraint for ALL Text and Containers */
 		.page-template-default h1, 
 		.page-template-default h2, 
 		.page-template-default h3, 
@@ -201,16 +213,16 @@ add_action('wp_head', function () {
 			box-sizing: border-box !important;
 		}
 
-		/* Specific fix for blocks that might have internal padding or alignment */
-		.page-template-default .entry-content > *,
-		.page-template-default .wp-block-post-content > * {
-			margin-left: auto !important;
-			margin-right: auto !important;
-			max-width: 800px !important;
+		/* Force Stacking for Portfolio (Proget) Page Elements */
+		.page-id-portfolio .wp-block-columns, 
+		.page-id-proget .wp-block-columns,
+		.uagb-columns-container {
+			flex-direction: column !important;
+			align-items: center !important;
 		}
 
 		/* Standardizing Images (800px width, 16:9 ratio, 30px rounded corners) */
-		.page-template-default img,
+		.page-template-default img:not(.wp-block-site-logo img),
 		.page-template-default .wp-block-image img,
 		.page-template-default .wp-block-post-featured-image img {
 			width: 100% !important;
@@ -223,7 +235,7 @@ add_action('wp_head', function () {
 			display: block !important;
 		}
 
-		/* Brown Containers (Narrower, matching image width, 30px rounded corners) */
+		/* Brown Containers Styling */
 		.wp-block-group[style*="background-color:#6B4423"],
 		.wp-block-group.has-brown-background-color,
 		.uagb-block-container[style*="background-color"] {
@@ -233,36 +245,9 @@ add_action('wp_head', function () {
 			border-radius: 30px !important;
 			padding: 40px !important;
 			box-sizing: border-box !important;
-			display: flex !important;
-			flex-direction: column !important;
-			align-items: center !important;
-		}
-
-		/* Force Columns to stack vertically (for Proget/Portfolio page) */
-		.wp-block-columns, 
-		.uagb-columns-container {
-			flex-direction: column !important;
-			align-items: center !important;
-		}
-
-		.wp-block-column,
-		.uagb-column__wrap {
-			width: 100% !important;
-			max-width: 800px !important; /* Match Established standard */
-			margin-left: auto !important;
-			margin-right: auto !important;
-			margin-bottom: 30px !important;
-		}
-
-		/* Center content inside brown containers */
-		.wp-block-group.has-brown-background-color > *,
-		.uagb-block-container > * {
-			text-align: center !important;
-			margin-left: auto !important;
-			margin-right: auto !important;
 		}
 		
-		:root { --wp--preset--color--brown: #6B4423 !important; }
+		:root { --wp--preset--color--brown: #3D2B1F !important; }
 	</style>';
 });
 
@@ -289,7 +274,7 @@ add_action('wp_footer', function () {
 			.ai-social-link {
 				width: 44px !important;
 				height: 44px !important;
-				background-color: #3D2B1F !important; /* Darker brown to match buttons */
+				background-color: #3D2B1F !important;
 				border-radius: 50% !important;
 				display: flex !important;
 				align-items: center !important;
@@ -309,25 +294,21 @@ add_action('wp_footer', function () {
 			}
 		</style>
 		<ul class="ai-social-list">
-			<!-- GitHub -->
 			<li class="ai-social-item">
 				<a href="https://github.com/tilopa0" class="ai-social-link" target="_blank" rel="noopener noreferrer" title="GitHub">
 					<svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 4.438 9.8 10.564 11.33 1.25.23 1.62-.544 1.62-1.206 0-.594-.022-2.166-.034-4.253-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .663.375 1.446 1.635 1.203C19.563 22.293 24 17.796 24 12.497c0-6.627-5.373-12-12-12"/></svg>
 				</a>
 			</li>
-			<!-- LinkedIn -->
 			<li class="ai-social-item">
 				<a href="https://www.linkedin.com/in/olga-popova-58b2113ab/" class="ai-social-link" target="_blank" rel="noopener noreferrer" title="LinkedIn">
 					<svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
 				</a>
 			</li>
-			<!-- Telegram -->
 			<li class="ai-social-item">
 				<a href="https://t.me/st_popova" class="ai-social-link" target="_blank" rel="noopener noreferrer" title="Telegram">
 					<svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.511l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.87 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.952z"/></svg>
 				</a>
 			</li>
-			<!-- WhatsApp -->
 			<li class="ai-social-item">
 				<a href="https://wa.me/380509823134" class="ai-social-link" target="_blank" rel="noopener noreferrer" title="WhatsApp">
 					<svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 100-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.4 27.2 106.2 27.2h.1c122.3 0 222-100 222-222 0-59.3-23-115.1-65.1-157.2zM223.9 445.5c-33.1 0-65.4-8.9-93.6-25.7l-6.7-4-69.8 18.3 18.7-68.2-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.6-184.5 184.1-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 19.8-3.2 1.9-6.5 2.1-12 0.7-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-0.3-8.6 2.4-11.3 2.5-2.4 5.5-6.4 8.3-9.6 2.8-3.2 3.7-5.5 5.5-9.2 1.8-3.7 0.9-6.9-0.5-9.6-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.4-3.2-0.2-6.9-0.2-10.6-0.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 29.8 94.8 53.8 13.3 2.4 26.5 3.9 39.5 4.3 13.2-0.4 25.4-3.1 34.9-6.9 10.6-4.3 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
