@@ -166,11 +166,11 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 endif;
 
 /**
- * AI INJECTED: Custom styles for Layout, Images, and Logos.
+ * AI INJECTED: Unified Layout, Images, Logos, and Vertical Column Stacking.
  */
 add_action('wp_head', function () {
 	echo '<style>
-		/* Fix Footer Logo Size (min 1.3cm ~ 50px) */
+		/* 1. Fix Footer Logo Size (min 1.3cm ~ 55px) */
 		footer .wp-block-site-logo img,
 		footer img.wp-block-site-logo,
 		.footer-logo img {
@@ -182,28 +182,13 @@ add_action('wp_head', function () {
 			object-fit: contain !important;
 		}
 
-		/* Global Centering for Page Content ONLY (Fixes Tarifs Hero) */
+		/* 2. Content Centering & 800px Width Constraint (For Text and ALL page content) */
 		.page-template-default .wp-block-post-content,
-		.page-id-tarifs-services .wp-block-post-content,
-		.page-id-portfolio .wp-block-post-content,
-		.page-id-proget .wp-block-post-content {
-			display: flex !important;
-			flex-direction: column !important;
-			align-items: center !important;
-			text-align: center !important;
-			width: 100% !important;
-		}
-
-		/* Global 800px Width Constraint for ALL Text and Containers */
-		.page-template-default h1, 
-		.page-template-default h2, 
-		.page-template-default h3, 
-		.page-template-default p,
-		.page-template-default .wp-block-heading,
-		.page-template-default .wp-block-paragraph,
-		.page-template-default .wp-block-group,
-		.page-template-default .uagb-block-container,
-		.page-template-default .uagb-container,
+		.page-template-default .wp-block-post-content > *,
+		.page-template-default h1, .page-template-default h2, .page-template-default h3, 
+		.page-template-default p, .page-template-default .wp-block-heading,
+		.page-template-default .wp-block-paragraph, .page-template-default .wp-block-group,
+		.page-template-default .uagb-block-container, .page-template-default .uagb-container,
 		.page-template-default .wp-block-post-title {
 			text-align: center !important;
 			margin-left: auto !important;
@@ -213,21 +198,56 @@ add_action('wp_head', function () {
 			box-sizing: border-box !important;
 		}
 
-		/* Force Stacking for Portfolio (Proget) Page Elements */
-		.page-id-portfolio .wp-block-columns, 
-		.page-id-proget .wp-block-columns,
-		.uagb-columns-container {
+		/* 3. Universal Vertical Column Stacking (Fixes crowding and "long horizontal row") */
+		/* This targets BOTH standard WordPress and Spectra columns */
+		.page-template-default .wp-block-columns, 
+		.page-template-default .uagb-columns-container,
+		.page-template-default .uagb-post-grid {
+			display: flex !important;
 			flex-direction: column !important;
 			align-items: center !important;
+			width: 100% !important;
+			max-width: 800px !important;
+			margin-left: auto !important;
+			margin-right: auto !important;
 		}
 
-		/* Standardizing Images (800px width, 16:9 ratio, 30px rounded corners) */
+		/* Ensure individual columns take full width and don't shrink */
+		.page-template-default .wp-block-column,
+		.page-template-default .uagb-column__wrap,
+		.page-template-default .uagb-post__inner-wrap {
+			flex-basis: 100% !important;
+			width: 100% !important;
+			max-width: 800px !important;
+			margin-bottom: 40px !important;
+		}
+
+		/* 4. Floating Banners & Pricing Cards (NOUS RESTONS HUMAINS & FACILE START) */
+		.wp-block-cover, .wp-block-cover-image, .uagb-section__outer-wrap,
+		.page-id-tarifs-services .wp-block-column,
+		.page-id-tarifs-services .uagb-column__wrap {
+			border-radius: 30px !important;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important; /* Floating air effect */
+			background-color: #3D2B1F !important; /* Dark brown from buttons */
+			color: #ffffff !important;
+			padding: 40px !important;
+			margin-top: 30px !important;
+			margin-bottom: 30px !important;
+		}
+		
+		/* White text for pricing cards and banners */
+		.wp-block-cover *, .uagb-section__outer-wrap *,
+		.page-id-tarifs-services .wp-block-column *,
+		.page-id-tarifs-services .uagb-column__wrap * {
+			color: #ffffff !important;
+		}
+
+		/* 5. Standardizing ALL Images */
 		.page-template-default img:not(.wp-block-site-logo img),
 		.page-template-default .wp-block-image img,
 		.page-template-default .wp-block-post-featured-image img {
 			width: 100% !important;
 			max-width: 800px !important;
-			height: auto !important;
 			aspect-ratio: 16/9 !important;
 			object-fit: cover !important;
 			border-radius: 30px !important;
@@ -235,62 +255,9 @@ add_action('wp_head', function () {
 			display: block !important;
 		}
 
-		/* Brown Containers Styling */
-		.wp-block-group[style*="background-color:#6B4423"],
-		.wp-block-group.has-brown-background-color,
-		.uagb-block-container[style*="background-color"],
-		/* Targeting "NOUS RESTONS HUMAINS" and similar banners */
-		.wp-block-cover, 
-		.wp-block-cover-image,
-		.uagb-section__outer-wrap {
-			max-width: 800px !important;
-			width: 90% !important;
-			margin: 60px auto !important; /* Original margin + 0.8cm (~30px) */
+		/* Match button borders */
+		.wp-block-button__link, .uagb-buttons-repeater {
 			border-radius: 30px !important;
-			padding: 40px !important;
-			box-sizing: border-box !important;
-			box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important; /* Floating shadow effect */
-			overflow: hidden !important;
-		}
-
-		/* Match button borders below banners */
-		.wp-block-button__link,
-		.uagb-buttons-repeater {
-			border-radius: 30px !important;
-		}
-
-		/* Pricing Tables (FACILE START etc.) - Force Vertical Stacking */
-		.wp-block-columns:has(.wp-block-column h1),
-		.wp-block-columns:has(.wp-block-column h2),
-		.uagb-columns-container {
-			flex-direction: column !important;
-			align-items: center !important;
-			gap: 40px !important;
-		}
-
-		/* Styling individual pricing cards to look like the banners */
-		.wp-block-column:has(h1), 
-		.wp-block-column:has(h2),
-		.uagb-column__wrap {
-			width: 100% !important;
-			max-width: 800px !important;
-			background-color: #6B4423 !important; /* Match your brown banner color */
-			color: #ffffff !important;
-			border-radius: 30px !important;
-			padding: 40px !important;
-			box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important; /* Floating shadow */
-			margin-bottom: 30px !important;
-			display: flex !important;
-			flex-direction: column !important;
-			align-items: center !important;
-		}
-
-		/* Ensure text inside these cards is white and centered */
-		.wp-block-column:has(h1) *, 
-		.wp-block-column:has(h2) *,
-		.uagb-column__wrap * {
-			color: #ffffff !important;
-			text-align: center !important;
 		}
 		
 		:root { --wp--preset--color--brown: #3D2B1F !important; }
