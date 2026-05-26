@@ -182,18 +182,31 @@ add_action('wp_head', function () {
 			width: 100% !important;
 		}
 
-		/* Centering headings and paragraphs */
+		/* Centering headings, paragraphs, and ALL container types */
 		.page-template-default h1, 
 		.page-template-default h2, 
 		.page-template-default h3, 
 		.page-template-default p,
 		.page-template-default .wp-block-heading,
-		.page-template-default .wp-block-paragraph {
+		.page-template-default .wp-block-paragraph,
+		.page-template-default .wp-block-group,
+		.page-template-default .uagb-block-container,
+		.page-template-default .uagb-container,
+		.page-template-default .wp-block-post-title {
 			text-align: center !important;
 			margin-left: auto !important;
 			margin-right: auto !important;
-			max-width: 800px !important; /* Exactly the same width as images */
+			max-width: 800px !important;
 			width: 100% !important;
+			box-sizing: border-box !important;
+		}
+
+		/* Specific fix for blocks that might have internal padding or alignment */
+		.page-template-default .entry-content > *,
+		.page-template-default .wp-block-post-content > * {
+			margin-left: auto !important;
+			margin-right: auto !important;
+			max-width: 800px !important;
 		}
 
 		/* Standardizing Images (800px width, 16:9 ratio, 30px rounded corners) */
